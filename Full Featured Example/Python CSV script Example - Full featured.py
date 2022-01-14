@@ -35,7 +35,7 @@ MAX_RETRY = 5  # number of times to retry a request if get a 403 throttle reache
 LOG_LEVEL = logging.WARNING
 
 # -------Set API key and configuration parameters -----------------
-PIPL_KEY = 'sfhw51n51fheruymmlu5xquc' # Replace with your BUSINESS PREMIUM key - see https://pipl.com/api/manage/keys
+PIPL_KEY = 'YOUR KEY' # Replace with your BUSINESS PREMIUM key - see https://pipl.com/api/manage/keys
 SearchAPIRequest.set_default_settings(api_key=PIPL_KEY, top_match=True,
                                       minimum_probability=0.6, live_feeds=False)
 # --------------------------------------------------------
