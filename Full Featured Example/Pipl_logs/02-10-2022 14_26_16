@@ -1,0 +1,60 @@
+2022-02-10 14:26:17,012 - ERROR - Row 2
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,014 - ERROR - Row 4
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,020 - ERROR - Row 6
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,020 - ERROR - Row 8
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,020 - ERROR - Row 9
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,021 - ERROR - Row 3
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,021 - ERROR - Row 5
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,022 - ERROR - Row 7
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,022 - ERROR - Row 10
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,022 - ERROR - Row 12
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,023 - ERROR - Row 13
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined
+2022-02-10 14:26:17,023 - ERROR - Row 11
+Traceback (most recent call last):
+  File "C:/Users/Matthew Curtis/Desktop/Pipl Github/Examples/Python-API-Examples/Full Featured Example/Python CSV script Example - Full featured.py", line 204, in do_work
+    if input_data[IDX_LINKEDIN_URL]:
+NameError: name 'IDX_LINKEDIN_URL' is not defined

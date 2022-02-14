@@ -17,51 +17,78 @@ from piplapis.error import APIError
 from piplapis.data import Person, Address, Name, Phone, Email, Job, DOB
 from piplapis.data.fields import DateRange, URL, Username, UserID
 
-# --------Configure input and output file paths + logging ------
 
+# -------CONFIGURATION----------------------------------
 INPUT_FILE_PATH = Path('Pipl_test_input_data.csv')
 OUTPUT_FOLDER_PATH = Path('json_output_test/')
 LOG_FOLDER_PATH = Path('Pipl_logs/')
-
-# ---------------------------------------------------------------
-
-# -------Script Configuration -------------------------
-
-
 MAX_QPS = 20 # If Live_feeds are on, change MAX_QPS to 10
 NUMBER_OF_THREADS = 10
-THROTTLE_SLEEP_TIME = NUMBER_OF_THREADS/MAX_QPS
 MAX_RETRY = 5  # number of times to retry a request if get a 403 throttle reached
 LOG_LEVEL = logging.WARNING
 
 # -------Set API key and configuration parameters -----------------
-PIPL_KEY = 'YOUR KEY' # Replace with your BUSINESS PREMIUM key - see https://pipl.com/api/manage/keys
+PIPL_KEY = 'YOUR_API_KEY' # Replace with your BUSINESS PREMIUM key - see https://pipl.com/api/manage/keys
+
+# Set Search configuration parameters
 SearchAPIRequest.set_default_settings(api_key=PIPL_KEY, top_match=True,
                                       minimum_probability=0.6, live_feeds=False)
-# --------------------------------------------------------
+# -------------- Results to include in Output CSV---------------------
 
-# -------------- CSV Column headers and indexes ---------------------
+show_match_score = True
+max_possible_persons = 3
+names_count = 3
+addresses_count = 3
+phones_count = 3
+show_dnc = False
+emails_count = 3
+usernames_count = 3
+user_ids_count = 3
+jobs_count = 3
+educations_count = 3
+urls_count = 3
+# singular fields
+dob = True
+gender = True
 
-IS_FIRST_HEADER = True
+# ------- column headers from input file --------------------- #
+# Set each to the appropriate column name in the input file or None
 
-#Modify the header list to match your input CSV data
-IDX_UNIQUE_ID = 0
-IDX_LINKEDIN_URL = 1
-#IDX_USERNAME
-#IDX_USER_ID
-IDX_NAME_FIRST = 2
-IDX_NAME_LAST = 3
-IDX_ADDRESS = 4
-    #IDX_ADDRESS_COUNTRY
-    #IDX_ADDRESS_STATE
-    #IDX_ADDRESS_CITY
-    #IDX_ADDRESS_STREET
-    #IDX_ADDRESS_HOUSE
-    #IDX_ADDRESS_ZIP
-IDX_COMPANY_NAME = 5
-#IDX_JOB_TITLE
-IDX_EMAIL = 6
-IDX_PHONE = 7
+# unique identifiers
+unique_id = "id"
+# Names
+first_name_header = "first_name"
+middle_name_header = None
+last_name_header = "last_name"
+raw_name_header = None
+# Phones
+default_country_code = None
+country_code_header = None
+region_code_header = None
+phone_header = "phone"
+phone_international_header = None
+# Emails
+email_header = "email"
+email_md5_header = None
+# Addresses
+raw_address_header = "address"
+street_header = None
+city_header = None
+state_header = None
+zip_code_header = None
+country_header = None
+# Jobs
+job_title_header = None
+job_org_header = "company_name"
+# DOB
+dob_header = None
+#Username
+username_header = None
+service = None
+# URL
+url_header = "url"
+
+#------------------End of Configuration ----------------------
 
 class ResultStatistics:
     perfect_matches = 0
@@ -72,11 +99,9 @@ class ResultStatistics:
     phone_fill = 0
     # social_fill = 0
 
-
 results = ResultStatistics
-# ----------------------------------------------------------
+throttle_sleep_time = NUMBER_OF_THREADS / MAX_QPS
 
-# ------------ init logging ------------------------------#
 # logging to indicate info, warnings and errors
 logger = logging.getLogger(__name__)
 
@@ -139,7 +164,7 @@ def get_PIPL_response(request, row_no):
                                                                                                 api_error.qps_live_allotted,
                                                                                                 api_error.qps_current,
                                                                                                 api_error.qps_allotted))
-                        time.sleep(THROTTLE_SLEEP_TIME)
+                        time.sleep(throttle_sleep_time)
                         continue
 
                 if api_error.http_status_code == 500:
@@ -171,12 +196,9 @@ def do_work(item):
         # extract next field from input data array
 
         # Name
-        if input_data[IDX_NAME_FIRST] and input_data[IDX_NAME_LAST]:
-            if (len(input_data[IDX_NAME_FIRST]) >= 2 or len(input_data[IDX_NAME_LAST]) >= 2):
-                fields.append(
-                    Name(
-                        first=input_data[IDX_NAME_FIRST],
-                        last=input_data[IDX_NAME_LAST]))
+        if raw_name_header is not None:
+            if raw_name_header in keys(input_data):
+                fields.append(Name(raw=input_data[raw_name_header]))
 
         # URL
         if input_data[IDX_LINKEDIN_URL]:
@@ -207,7 +229,7 @@ def do_work(item):
                 fields.append(Email(address=input_data[IDX_EMAIL]))
             else:
                 logger.warning(
-                    "Invalid email: Row {}, Row ID {},{}\n".format(row_no, input_data[IDX_UNIQUE_ID], input_data[IDX_EMAIL]))
+                    "Invalid email: Row {}, Row ID {},{}\n".format(row_no, input_data[unique_id], input_data[IDX_EMAIL]))
 
         # Phone
         if input_data[IDX_PHONE]:
@@ -216,10 +238,10 @@ def do_work(item):
                     fields.append(Phone(number=input_data[IDX_PHONE]))
                 else:
                     logger.warning(
-                        "Invalid phone: Row {}, Row ID {},{}\n".format(row_no, input_data[IDX_UNIQUE_ID], input_data[IDX_PHONE]))
+                        "Invalid phone: Row {}, Row ID {},{}\n".format(row_no, input_data[unique_id], input_data[IDX_PHONE]))
             except AttributeError:
                 logger.warning(
-                    "Invalid phone: Row {}, Row ID {},{}\n".format(row_no, input_data[IDX_UNIQUE_ID],
+                    "Invalid phone: Row {}, Row ID {},{}\n".format(row_no, input_data[unique_id],
                                                                    input_data[IDX_PHONE]))
 
         request = SearchAPIRequest(person=Person(fields=fields))
@@ -240,7 +262,7 @@ def do_work(item):
                 results.possible_matches += 1
 
             file_name = u"{}_{}.json".format(row_no-1,
-                                             input_data[IDX_UNIQUE_ID])
+                                             input_data[unique_id])
             json_file = Path.joinpath(OUTPUT_FOLDER_PATH, file_name)
 
             if api_response.warnings:
@@ -309,14 +331,13 @@ if __name__ == '__main__':
     # Put work items on the queue
     with open(INPUT_FILE_PATH) as csvfile_read:
         csvreader = csv.reader(csvfile_read, delimiter=',', quotechar='"')
+
         for row in csvreader:
             count += 1
-            if (count == 1 and IS_FIRST_HEADER):
+            if (count == 1):
                 continue
             item = [count, row]
             logger.info(u"Fetching record {} {}".format(count, item))
-
-            q.put(item)
 
     q.join()  # block until all tasks are done
 
